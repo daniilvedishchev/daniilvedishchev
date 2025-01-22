@@ -1,8 +1,3 @@
-## Hi there 👋
-
-<!--
-**daniilvedishchev/daniilvedishchev** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
 # Welcome to My GitHub Profile!
 
 I'm passionate about **finance**, **trading**, **mathematics**, and **programming**. On this profile, you'll find projects related to these interests, as well as some learning experiences and contributions that I’ve made.

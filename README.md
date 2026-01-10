@@ -8,12 +8,13 @@ I build research tooling that connects **market data → strategy definition →
 **Highlights**
 - **Octurn DSL:** lexer/parser/AST + readable diagnostics for fast research iteration
 - **C++ compute core:** indicator primitives (MA/RSI) + function dispatch callable from DSL scripts
-- **WASM-ready data flow:** async OHLC ingestion and a bridge pattern suitable for browser runtimes
+- **Market data pipeline:** async OHLC fetch + engine integration designed for web tooling (WASM-friendly bridge)
 - **Scaling scaffold:** queue-based job execution + HTTP service integration points for orchestration
 
 ## Featured: Kayiros (R&D Backtesting Platform) + Octurn (Strategy DSL)
 
-**Kayiros** is my R&D workspace for systematic trading research — designed for fast iteration, reproducibility, and scaling from local runs to queued execution.
+**Kayiros** is an R&D backtesting platform built to speed up strategy research.  
+It combines a **custom strategy DSL (Octurn)** with a **C++ compute core**, integrates with **web tooling (WASM)**, and is structured for **scalable job execution patterns**.
 
 At the core is **Octurn**, a C++20 trading-strategy DSL and backtesting engine:  
 ➡️ **Octurn repo:** https://github.com/daniilvedishchev/Octurn
@@ -21,43 +22,20 @@ At the core is **Octurn**, a C++20 trading-strategy DSL and backtesting engine:
 ### What I built (high level)
 - **Octurn — custom strategy DSL**
   - Lexer, parser, AST, and readable diagnostics
-  - Block structure for research workflows: `data / parameters / indicators / entry / exit`
+  - Block structure for research workflows: `config / data / indicators / entry / exit`
 - **Runtime / interpreter**
   - Explicit execution states (parse → wait for data → ready → run) for predictable evaluation
 - **C++ compute core**
   - Indicator primitives (e.g., MA, RSI) + function dispatch so indicators are callable from DSL scripts
-- **Data ingestion + WASM-friendly flow**
-  - Async OHLC fetching and a bridge pattern suitable for browser/WASM runtimes
-- **Scaling scaffolding (prototype)**
-  - Queue-based job execution patterns (publisher/worker)
-  - HTTP service integration points (Drogon-style scaffold)
+- **Market data ingestion**
+  - Async OHLC fetch and transfer into the C++ engine via a **WASM bridge** (callbacks, readiness flags, queued results, cleanup)
+- **Service + scaling scaffolding (prototype)**
+  - Queue publisher/worker skeleton for backtest jobs (RabbitMQ pattern)
+  - HTTP service scaffold for endpoints + future orchestration hooks (Drogon)
 - **UI scaffold**
-  - “Backtest cockpit” idea (run history, parameter sweeps, analytics dashboards)
-
-## Tech Stack
-
-**Core / Engine**
-- C++20, CMake
-- Eigen (linear algebra), nlohmann/json
-- HTTP client: cpr
-
-**DSL**
-- Custom lexer/parser + AST
-- Interpreter/runtime with staged evaluation
-
-**Web / UI**
-- JavaScript / TypeScript
-- React + Vite
-- Emscripten / WebAssembly bridge
-
-**Data & APIs**
-- OHLC pipelines
-- Polygon API (market data)
-
-**Infra / Scaling (prototype)**
-- RabbitMQ (publisher/worker pattern)
-- Drogon (HTTP service scaffold)
-- Docker
+  - React/Vite setup for a backtest “cockpit” (future dashboards, run history, parameter sweeps)
+- **Quant framing (roadmap-ready)**
+  - Prepared for transaction costs/slippage, reproducibility controls, and out-of-sample workflows without changing the DSL surface
 
 ## Badges
 ![C++](https://img.shields.io/badge/C%2B%2B-20-blue)

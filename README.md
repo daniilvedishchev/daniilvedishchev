@@ -36,7 +36,7 @@ strategy SimpleMA {
 
 ```
                     ┌─────────────────────────────────────────────┐
-                    │              .oct strategy file              │
+                    │              .oct strategy file             │
                     └────────────────────┬────────────────────────┘
                                          │
                                          ▼
@@ -49,8 +49,8 @@ strategy SimpleMA {
                                                     ┌──────────────┼──────────────┐
                                                     ▼              ▼              ▼
                                               ┌──────────┐  ┌──────────┐  ┌──────────┐
-                                              │ Polygon   │  │   TA     │  │ Backtest │
-                                              │ OHLC data │  │ RSI, MA  │  │  engine  │
+                                              │ Polygon  │  │   TA     │  │ Backtest │
+                                              │ OHLC data│  │ RSI, MA  │  │  engine  │
                                               └──────────┘  └──────────┘  └──────────┘
 ```
 
@@ -119,7 +119,7 @@ strategy MyStrategy {
 Breaks `.oct` source into a typed token stream — keywords, identifiers, literals, operators, delimiters.
 
 ### Parser
-Recursive descent parser that consumes tokens and builds a structured AST. Handles nested blocks: `config` → `data` → `strategy` → `parameters` / `indicators` / `entry` / `exit`.
+Recursive descent parser that consumes tokens and builds a structured AST. Handles nested blocks: `config` → `data` → `strategy` → `parameters` | `indicators` | `entry` | `exit`.
 
 ### Interpreter
 Walks the AST and evaluates:

@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/ed5c7550-cb2d-4317-9bf1-a0b84e768aff" alt="Octurn" width="100%">
-</p>
+![Logo](./octurn_banner.svg)
 
 <p align="center">
   <b>C++20 strategy DSL & backtesting engine for quantitative trading research</b>

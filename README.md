@@ -1,8 +1,7 @@
-<img width="6336" height="1584" alt="octurn_linkedin_banner_4x" src="https://github.com/user-attachments/assets/ed5c7550-cb2d-4317-9bf1-a0b84e768aff" />
-
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ed5c7550-cb2d-4317-9bf1-a0b84e768aff" alt="Octurn" width="100%">
 </p>
+
 # Octurn
 
 **A C++20 strategy DSL and backtesting engine for quantitative trading research.**

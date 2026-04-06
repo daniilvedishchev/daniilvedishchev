@@ -1,4 +1,4 @@
-![Logo](./octurn_banner.svg)
+![Logo](./octurn_banner_v4.svg)
 
 <p align="center">
   <b>C++20 strategy DSL & backtesting engine for quantitative trading research</b>

@@ -2,13 +2,23 @@
   <img src="https://github.com/user-attachments/assets/ed5c7550-cb2d-4317-9bf1-a0b84e768aff" alt="Octurn" width="100%">
 </p>
 
-# Octurn
+<p align="center">
+  <b>C++20 strategy DSL & backtesting engine for quantitative trading research</b>
+</p>
 
-**A C++20 strategy DSL and backtesting engine for quantitative trading research.**
+<p align="center">
+  <img src="https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat-square&logo=cplusplus&logoColor=white" alt="C++20">
+  <img src="https://img.shields.io/badge/Build-CMake-064F8C?style=flat-square&logo=cmake&logoColor=white" alt="CMake">
+  <img src="https://img.shields.io/badge/Data-Polygon.io-6C2DC7?style=flat-square" alt="Polygon.io">
+  <img src="https://img.shields.io/badge/Status-Active-28c840?style=flat-square" alt="Active">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT">
+</p>
 
-Octurn lets you define trading strategies in a clean, declarative language — then parses, interprets, and evaluates them against real market data through a native C++ engine.
+---
 
-```
+Octurn lets you write trading strategies in a **clean, declarative DSL** — then parses, interprets, and evaluates them against real market data through a native C++ pipeline.
+
+```octurn
 strategy SimpleMA {
   parameters {
     fast_ma: 5
@@ -17,40 +27,49 @@ strategy SimpleMA {
   indicators {
     RSI1 = RSI(AAPL_close, 12)
   }
-  entry {
-    when RSI1 > 50
-  }
-  exit {
-    when RSI1 > 250
-  }
+  entry { when RSI1 > 50 }
+  exit  { when RSI1 > 250 }
 }
 ```
 
----
+<br>
 
-## What it does
-
-Octurn takes a strategy script → lexes → parses → builds an AST → interprets it against market data → outputs runtime results (signals, indicator values, trade flags).
-
-The full pipeline:
+## ⚙️ Pipeline
 
 ```
-.oct script → Lexer → Parser → AST → Interpreter → Runtime evaluation
-                                                        ↓
-                                            Polygon.io OHLC data
-                                                        ↓
-                                          Indicators / Signals / Trades
+                    ┌─────────────────────────────────────────────┐
+                    │              .oct strategy file              │
+                    └────────────────────┬────────────────────────┘
+                                         │
+                                         ▼
+         ┌───────────┐    ┌───────────┐    ┌───────────┐    ┌──────────────┐
+         │   Lexer   │───▶│  Parser   │───▶│    AST    │───▶│ Interpreter  │
+         │ tokenize  │    │ recursive │    │  nodes &  │    │  evaluate &  │
+         │  stream   │    │  descent  │    │   exprs   │    │   resolve    │
+         └───────────┘    └───────────┘    └───────────┘    └──────┬───────┘
+                                                                   │
+                                                    ┌──────────────┼──────────────┐
+                                                    ▼              ▼              ▼
+                                              ┌──────────┐  ┌──────────┐  ┌──────────┐
+                                              │ Polygon   │  │   TA     │  │ Backtest │
+                                              │ OHLC data │  │ RSI, MA  │  │  engine  │
+                                              └──────────┘  └──────────┘  └──────────┘
 ```
 
-**Input:** a `.oct` strategy script + Polygon.io API key
+**Input** → `.oct` script + Polygon.io API key  
+**Output** → indicator series, entry/exit signals, trade log, equity tracking
 
-**Output:** evaluated signals, indicator series, entry/exit flags, and backtest results
+<br>
 
----
+## 📝 DSL Syntax
 
-## DSL syntax
+Three top-level blocks define a complete strategy:
 
-A strategy file has three top-level blocks:
+<table>
+<tr>
+<td width="50%">
+
+**`config`** — execution parameters
 
 ```
 config {
@@ -58,116 +77,132 @@ config {
   positionSize: 1
   slippageBps: 10
 }
+```
 
+</td>
+<td width="50%">
+
+**`data`** — market data sources
+
+```
 data [
-  { ticker: AAPL timespan: day multiplier: 1 from: 2025-09-01 to: 2025-10-27 },
-  { ticker: MSFT timespan: day multiplier: 1 from: 2025-08-01 to: 2025-10-27 }
+  { ticker: AAPL  timespan: day
+    multiplier: 1
+    from: 2025-09-01
+    to: 2025-10-27 }
 ]
+```
 
-strategy SimpleMA {
-  parameters { ... }
-  indicators { ... }
-  entry { when <condition> }
-  exit  { when <condition> }
+</td>
+</tr>
+</table>
+
+**`strategy`** — the core logic block
+
+```octurn
+strategy MyStrategy {
+  parameters {
+    period: 14
+    threshold: 50
+  }
+  indicators {
+    RSI1 = RSI(AAPL_close, period)
+  }
+  entry { when RSI1 > threshold }
+  exit  { when RSI1 > 80 }
 }
 ```
 
-- **`config`** — equity, position sizing, slippage
-- **`data`** — tickers, timeframes, date ranges (fetched via Polygon.io)
-- **`strategy`** — parameters, indicators (RSI, MA, etc.), entry/exit rules with boolean conditions
+<br>
 
----
+## 🔍 How It Works
 
-## Architecture
+### Lexer
+Breaks `.oct` source into a typed token stream — keywords, identifiers, literals, operators, delimiters.
+
+### Parser
+Recursive descent parser that consumes tokens and builds a structured AST. Handles nested blocks: `config` → `data` → `strategy` → `parameters` / `indicators` / `entry` / `exit`.
+
+### Interpreter
+Walks the AST and evaluates:
+- **Data resolution** — fetches OHLC bars from Polygon.io via async REST calls
+- **Indicator dispatch** — computes RSI, MA (extensible TA library)
+- **Signal evaluation** — evaluates boolean entry/exit conditions → produces signal arrays
+- **State machine** — `parse → wait_for_data → ready → run`
+
+### Backtester
+Consumes signal arrays + price data → simulates order execution with slippage modeling → tracks positions, equity curve, and trade log.
+
+### Execution Engine
+Translates signals into order-level events. Structured for future live/paper execution bridge.
+
+<br>
+
+## 🏗️ Architecture
 
 ```
 Octurn/
-├── lexer/          # Tokenizer — breaks .oct scripts into tokens
-├── parser/         # Recursive descent parser → AST
-├── node/           # AST node types (expressions, params, indicators, rules)
-├── interpreter/    # Evaluates AST over market data, resolves indicators & signals
-├── engine/         # Top-level orchestrator — ties lexer→parser→interpreter→data
-├── ta/             # Technical analysis library (RSI, MA, extensible)
-├── backtester/     # Backtest loop — applies signals to price data, tracks P&L
-├── execution/      # Execution engine — order generation from signals
-├── trade/          # Trade type definitions and tracking
-├── config/         # Config parsing, validation rules, slippage tables
-├── mappers/        # Maps raw API responses → internal market data types
-├── dataLayer/      # Market data view abstraction
-├── src/polygon/    # Polygon.io REST client + data feed integration
-├── injector/       # Dependency injection utilities
-├── log/            # Structured logging
-├── utils/          # Shared helpers
-└── types/          # Core type definitions (OHLC, bars, series)
+│
+├── lexer/            Tokenizer
+├── parser/           Recursive descent → AST
+├── node/             AST node types
+├── interpreter/      Runtime evaluation engine
+├── engine/           Top-level orchestrator
+│
+├── ta/               Technical analysis (RSI, MA)
+├── backtester/       Backtest simulation loop
+├── execution/        Order generation from signals
+├── trade/            Trade tracking & types
+│
+├── config/           Config parsing + validation + slippage tables
+├── mappers/          API response → internal types
+├── dataLayer/        Market data view abstraction
+├── src/polygon/      Polygon.io REST client & data feed
+│
+├── injector/         Dependency injection
+├── log/              Structured logging
+├── utils/            Shared helpers
+├── types/            Core types (OHLC, bars, series)
+│
+├── CMakeLists.txt
+└── main.cpp
 ```
 
----
+<br>
 
-## How it works
-
-### 1. Lexer
-Tokenizes the `.oct` script into a stream of typed tokens (keywords, identifiers, literals, operators, delimiters).
-
-### 2. Parser
-Recursive descent parser that consumes the token stream and produces a structured AST. Handles `config`, `data`, and `strategy` blocks with nested `parameters`, `indicators`, `entry`, and `exit` sub-blocks.
-
-### 3. Interpreter
-Walks the AST and evaluates it:
-- Resolves `data` blocks → fetches OHLC bars from Polygon.io
-- Computes `indicators` → dispatches to the TA library (RSI, MA, etc.)
-- Evaluates `entry` / `exit` conditions → produces boolean signal arrays
-- Manages execution state: `parse → wait_for_data → ready → run`
-
-### 4. Backtester
-Takes the signal arrays + price data and simulates execution: tracks positions, applies slippage, computes equity curve and trade log.
-
-### 5. Execution engine
-Translates signals into order-level events. Designed for future connection to live execution.
-
----
-
-## Runtime output
+## 📊 Runtime Output
 
 ```
 Octurn Runtime
-==============
+══════════════
+
 Config
-------
+──────
 equity        : 100
 positionSize  : 1
 slippageBps   : 10
 
 Data Sources
-------------
-- AAPL | day | 1x | 2025-09-01 → 2025-10-27 | 40 bars
-- MSFT | day | 1x | 2025-08-01 → 2025-10-27 | 61 bars
+────────────
+AAPL │ day │ 1x │ 2025-09-01 → 2025-10-27 │ 40 bars
+MSFT │ day │ 1x │ 2025-08-01 → 2025-10-27 │ 61 bars
 
 Indicators
-----------
-RSI1          : length = 40
-RSI1 tail     : [49.03, 51.62, 48.39, 56.07, 67.06, 67.53, 59.90, 61.15, 64.61, 70.00]
+──────────
+RSI1   length = 40
+  tail : [49.03, 51.62, 48.39, 56.07, 67.06, 67.53, 59.90, 61.15, 64.61, 70.00]
 
 Signals
--------
-Entry true at : [12..27, 31, 33..39]    (23 signals)
-Exit true at  : []                       (0 signals)
+───────
+Entry  [12..27, 31, 33..39]    23 hits
+Exit   []                       0 hits
 ```
 
----
+<br>
 
-## Tech stack
+## 🚀 Quick Start
 
-| Component | Technology |
-|---|---|
-| Language | C++20 |
-| Build | CMake |
-| Market data | Polygon.io REST API (via [cpr](https://github.com/libcpr/cpr)) |
-| JSON | [nlohmann/json](https://github.com/nlohmann/json) |
-| Technical analysis | Custom C++ (RSI, MA — extensible) |
-
----
-
-## Build
+**Build**
 
 ```bash
 mkdir build && cd build
@@ -175,11 +210,9 @@ cmake ..
 cmake --build .
 ```
 
-Requires `cpr` and `nlohmann_json` (install via vcpkg, Homebrew, or system package manager).
+> Requires [`cpr`](https://github.com/libcpr/cpr) and [`nlohmann/json`](https://github.com/nlohmann/json) — install via vcpkg, Homebrew, or system package manager.
 
----
-
-## Run
+**Run**
 
 ```cpp
 #include "engine/octurn.hpp"
@@ -191,7 +224,7 @@ int main() {
             { ticker: AAPL timespan: day multiplier: 1
               from: 2025-09-01 to: 2025-10-27 }
         ]
-        strategy MyStrat {
+        strategy RSI_Cross {
             parameters { period: 14 }
             indicators { RSI1 = RSI(AAPL_close, 12) }
             entry { when RSI1 > 50 }
@@ -204,33 +237,38 @@ int main() {
 }
 ```
 
----
+<br>
 
-## Roadmap
+## 🗺️ Roadmap
 
-- [ ] Richer DSL syntax (multi-condition logic, cross-asset rules)
-- [ ] More indicators (EMA, MACD, Bollinger, ATR)
-- [ ] Portfolio-level logic (multi-strategy, allocation)
-- [ ] Backtest metrics (Sharpe, drawdown, profit factor)
-- [ ] JSON export for runtime results
-- [ ] Validation & diagnostic error messages
-- [ ] Execution bridge (paper → live)
-- [ ] WASM compilation for web integration
+| Feature | Status |
+|---|---|
+| Core DSL (config / data / strategy blocks) | ✅ Done |
+| Lexer → Parser → AST pipeline | ✅ Done |
+| Interpreter + signal evaluation | ✅ Done |
+| Polygon.io data integration | ✅ Done |
+| RSI / MA indicators | ✅ Done |
+| Backtester with slippage | ✅ Done |
+| Execution engine scaffold | ✅ Done |
+| Multi-condition logic & cross-asset rules | 🔜 Next |
+| More indicators (EMA, MACD, Bollinger, ATR) | 🔜 Next |
+| Backtest metrics (Sharpe, drawdown, PF) | 🔜 Planned |
+| JSON runtime export | 🔜 Planned |
+| Diagnostic error messages | 🔜 Planned |
+| Portfolio-level logic | 🔜 Planned |
+| Execution bridge (paper → live) | 🔜 Planned |
+| WASM compilation for web | 🔜 Planned |
 
----
+<br>
 
-## Status
-
-Early-stage — the core pipeline works end-to-end (script → parse → fetch data → compute indicators → generate signals → backtest). Actively being extended with richer DSL features and backtest analytics.
-
----
-
-## License
+## 📄 License
 
 MIT
 
+<br>
+
 ---
 
-## Contact
-
-Open an issue or reach out if you're interested in strategy infrastructure, DSL design, or quant tooling.
+<p align="center">
+  <sub>Built with C++20 · Strategy-first design · Open for collaboration</sub>
+</p>

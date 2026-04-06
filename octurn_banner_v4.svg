@@ -1,0 +1,163 @@
+<svg width="900" height="300" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="accentLine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="eqFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="eqStroke" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#93c5fd" stop-opacity="0.2"/>
+      <stop offset="20%" stop-color="#3b82f6" stop-opacity="0.45"/>
+      <stop offset="80%" stop-color="#2563eb" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="gridV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#e2e8f0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#e2e8f0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gridH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e2e8f0" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#e2e8f0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e2e8f0" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="450" cy="85" r="250" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#dbeafe" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#dbeafe" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="clip">
+      <rect width="900" height="300" rx="6"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#clip)">
+    <rect width="900" height="300" fill="#ffffff"/>
+    <rect width="900" height="300" fill="url(#glow)"/>
+
+    <!-- Grid -->
+    <g stroke-width="0.3">
+      <line x1="180" y1="0" x2="180" y2="300" stroke="url(#gridV)"/>
+      <line x1="360" y1="0" x2="360" y2="300" stroke="url(#gridV)"/>
+      <line x1="540" y1="0" x2="540" y2="300" stroke="url(#gridV)"/>
+      <line x1="720" y1="0" x2="720" y2="300" stroke="url(#gridV)"/>
+      <line x1="0" y1="75" x2="900" y2="75" stroke="url(#gridH)"/>
+      <line x1="0" y1="150" x2="900" y2="150" stroke="url(#gridH)"/>
+      <line x1="0" y1="225" x2="900" y2="225" stroke="url(#gridH)"/>
+    </g>
+
+    <!-- Equity curve -->
+    <path d="M0,220 C60,218 100,215 140,210 C180,205 210,200 250,185 C290,170 310,175 350,165 C390,155 410,160 450,148 C490,136 520,130 560,120 C600,110 630,115 670,100 C710,85 740,90 780,78 C820,66 850,70 900,60"
+          fill="none" stroke="url(#eqStroke)" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M0,220 C60,218 100,215 140,210 C180,205 210,200 250,185 C290,170 310,175 350,165 C390,155 410,160 450,148 C490,136 520,130 560,120 C600,110 630,115 670,100 C710,85 740,90 780,78 C820,66 850,70 900,60 L900,300 L0,300 Z"
+          fill="url(#eqFill)"/>
+
+    <!-- Candlesticks -->
+    <g opacity="0.08" stroke-width="0.8">
+      <rect x="55" y="195" width="4" height="18" fill="#16a34a" rx="0.5"/>
+      <line x1="57" y1="188" x2="57" y2="195" stroke="#16a34a"/>
+      <line x1="57" y1="213" x2="57" y2="220" stroke="#16a34a"/>
+      <rect x="75" y="185" width="4" height="25" fill="#dc2626" rx="0.5"/>
+      <line x1="77" y1="178" x2="77" y2="185" stroke="#dc2626"/>
+      <line x1="77" y1="210" x2="77" y2="218" stroke="#dc2626"/>
+      <rect x="95" y="192" width="4" height="15" fill="#16a34a" rx="0.5"/>
+      <line x1="97" y1="185" x2="97" y2="192" stroke="#16a34a"/>
+      <line x1="97" y1="207" x2="97" y2="215" stroke="#16a34a"/>
+      <rect x="115" y="180" width="4" height="22" fill="#16a34a" rx="0.5"/>
+      <line x1="117" y1="172" x2="117" y2="180" stroke="#16a34a"/>
+      <line x1="117" y1="202" x2="117" y2="210" stroke="#16a34a"/>
+      <rect x="790" y="90" width="4" height="20" fill="#dc2626" rx="0.5"/>
+      <line x1="792" y1="82" x2="792" y2="90" stroke="#dc2626"/>
+      <line x1="792" y1="110" x2="792" y2="118" stroke="#dc2626"/>
+      <rect x="810" y="80" width="4" height="15" fill="#16a34a" rx="0.5"/>
+      <line x1="812" y1="72" x2="812" y2="80" stroke="#16a34a"/>
+      <line x1="812" y1="95" x2="812" y2="105" stroke="#16a34a"/>
+      <rect x="830" y="75" width="4" height="20" fill="#16a34a" rx="0.5"/>
+      <line x1="832" y1="66" x2="832" y2="75" stroke="#16a34a"/>
+      <line x1="832" y1="95" x2="832" y2="102" stroke="#16a34a"/>
+      <rect x="850" y="82" width="4" height="18" fill="#dc2626" rx="0.5"/>
+      <line x1="852" y1="75" x2="852" y2="82" stroke="#dc2626"/>
+      <line x1="852" y1="100" x2="852" y2="108" stroke="#dc2626"/>
+    </g>
+
+    <!-- DSL code — top left -->
+    <g opacity="0.18" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="11">
+      <text x="28" y="36" fill="#64748b"><tspan fill="#7c3aed">strategy</tspan> rsi_divergence {</text>
+      <text x="46" y="52" fill="#64748b"><tspan fill="#2563eb">param</tspan> period = <tspan fill="#d97706">14</tspan></text>
+      <text x="46" y="68" fill="#64748b"><tspan fill="#2563eb">param</tspan> threshold = <tspan fill="#d97706">0.72</tspan></text>
+      <text x="46" y="84" fill="#64748b"><tspan fill="#2563eb">param</tspan> timeframe = <tspan fill="#059669">"45m"</tspan></text>
+      <text x="28" y="100" fill="#64748b">}</text>
+    </g>
+
+    <!-- DSL code — bottom right -->
+    <g opacity="0.18" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="11">
+      <text x="700" y="228" fill="#64748b"><tspan fill="#7c3aed">signal</tspan> divergence =</text>
+      <text x="718" y="244" fill="#64748b">rsi(close, period) <tspan fill="#dc2626">diverges</tspan> close</text>
+      <text x="700" y="268" fill="#64748b"><tspan fill="#7c3aed">entry</tspan> <tspan fill="#2563eb">when</tspan> strength &gt; threshold</text>
+      <text x="718" y="284" fill="#64748b"><tspan fill="#2563eb">size</tspan> risk_pct(<tspan fill="#d97706">1.5</tspan>)</text>
+    </g>
+
+    <!-- Title — thin elegant sans -->
+    <text x="450" y="95" text-anchor="middle"
+          font-family="'Helvetica Neue', 'Arial', sans-serif"
+          font-size="54" font-weight="200" fill="#0f172a" letter-spacing="16">OCTURN</text>
+
+    <!-- Accent divider -->
+    <rect x="390" y="108" width="120" height="1.5" fill="url(#accentLine)" rx="0.75"/>
+
+    <!-- Subtitle -->
+    <text x="450" y="132" text-anchor="middle"
+          font-family="'Inter', 'Segoe UI', system-ui, sans-serif"
+          font-size="11" fill="#94a3b8" letter-spacing="5" font-weight="400">SYSTEMATIC BACKTESTING ENGINE</text>
+
+    <!-- Stats -->
+    <g text-anchor="middle">
+      <line x1="308" y1="160" x2="308" y2="200" stroke="#e2e8f0" stroke-width="0.5"/>
+      <line x1="416" y1="160" x2="416" y2="200" stroke="#e2e8f0" stroke-width="0.5"/>
+      <line x1="524" y1="160" x2="524" y2="200" stroke="#e2e8f0" stroke-width="0.5"/>
+      <line x1="632" y1="160" x2="632" y2="200" stroke="#e2e8f0" stroke-width="0.5"/>
+
+      <text x="254" y="187" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="600" fill="#1e293b">2.14</text>
+      <text x="254" y="204" font-family="'Inter', sans-serif" font-size="8.5" fill="#94a3b8" letter-spacing="2.5">PROFIT FACTOR</text>
+
+      <text x="362" y="187" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="600" fill="#1e293b">1.87</text>
+      <text x="362" y="204" font-family="'Inter', sans-serif" font-size="8.5" fill="#94a3b8" letter-spacing="2.5">SHARPE RATIO</text>
+
+      <text x="470" y="187" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="600" fill="#1e293b">64.2<tspan font-size="14" fill="#94a3b8">%</tspan></text>
+      <text x="470" y="204" font-family="'Inter', sans-serif" font-size="8.5" fill="#94a3b8" letter-spacing="2.5">WIN RATE</text>
+
+      <text x="578" y="187" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="600" fill="#1e293b">&lt;1<tspan font-size="14" fill="#94a3b8">ms</tspan></text>
+      <text x="578" y="204" font-family="'Inter', sans-serif" font-size="8.5" fill="#94a3b8" letter-spacing="2.5">MEDIAN LATENCY</text>
+
+      <text x="686" y="187" font-family="'JetBrains Mono', monospace" font-size="24" font-weight="600" fill="#16a34a">100K</text>
+      <text x="686" y="204" font-family="'Inter', sans-serif" font-size="8.5" fill="#94a3b8" letter-spacing="2.5">FUNDED</text>
+    </g>
+
+    <!-- Tech pills -->
+    <g font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="10" text-anchor="middle">
+      <rect x="213" y="226" width="62" height="22" rx="11" fill="none" stroke="#cbd5e1" stroke-width="0.7"/>
+      <text x="244" y="241" fill="#94a3b8">C++20</text>
+
+      <rect x="289" y="226" width="90" height="22" rx="11" fill="none" stroke="#cbd5e1" stroke-width="0.7"/>
+      <text x="334" y="241" fill="#94a3b8">Custom DSL</text>
+
+      <rect x="393" y="226" width="114" height="22" rx="11" fill="none" stroke="#cbd5e1" stroke-width="0.7"/>
+      <text x="450" y="241" fill="#94a3b8">Deterministic</text>
+
+      <rect x="521" y="226" width="88" height="22" rx="11" fill="none" stroke="#cbd5e1" stroke-width="0.7"/>
+      <text x="565" y="241" fill="#94a3b8">Polygon API</text>
+
+      <rect x="623" y="226" width="54" height="22" rx="11" fill="none" stroke="#cbd5e1" stroke-width="0.7"/>
+      <text x="650" y="241" fill="#94a3b8">WASM</text>
+
+      <rect x="691" y="226" width="48" height="22" rx="11" fill="none" stroke="#cbd5e1" stroke-width="0.7"/>
+      <text x="715" y="241" fill="#94a3b8">MIT</text>
+    </g>
+
+    <!-- Border -->
+    <rect width="900" height="300" rx="6" fill="none" stroke="#e2e8f0" stroke-width="0.5"/>
+  </g>
+</svg>

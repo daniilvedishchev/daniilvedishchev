@@ -49,8 +49,8 @@ strategy SimpleMA {
                                                     ┌──────────────┼──────────────┐
                                                     ▼              ▼              ▼
                                               ┌──────────┐  ┌──────────┐  ┌──────────┐
-                                              │ Polygon  │  │   TA     │  │ Backtest │
-                                              │ OHLC data│  │ RSI, MA  │  │  engine  │
+                                              │   API    │  │    TA    │  │ Backtest │
+                                              │          │  │          │  │  engine  │
                                               └──────────┘  └──────────┘  └──────────┘
 ```
 

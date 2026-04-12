@@ -14,6 +14,10 @@
 
 ---
 
+## Documentation
+
+📄 **[Octurn DSL User Guide (PDF)](docs/octurn_dsl_guide.pdf)** — complete reference for writing strategies
+
 Octurn lets you write trading strategies in a **clean, declarative DSL** — then parses, interprets, and evaluates them against real market data through a native C++ pipeline.
 
 ```octurn

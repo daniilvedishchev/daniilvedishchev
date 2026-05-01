@@ -8,7 +8,7 @@ Previously ESEO — valedictorian · Bachelor's in Financial Markets (SPbGUE)
 I build quantitative trading infrastructure from scratch.
 My main project is **[Octurn](https://github.com/daniilvedishchev/Octurn)** —
 a C++20 systematic trading engine with a hand-written DSL,
-realistic execution simulation (FOK/GTC, √-impact model, mark-to-market P&L),
+realistic execution simulation,
 and a full backtesting pipeline. Deployed live on a **100k funded account**.
 
 ---
